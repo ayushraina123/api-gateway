@@ -67,19 +67,32 @@ http://localhost:8080/api/service-endpoint
 ````
 
 
-###  API Gateway:
+
+### API Gateway:
 
 1. Receives the request
-2. Uses **Eureka Service Discovery** to find available service instances
-3. Routes the request to the appropriate microservice
+2. Validates the **JWT token** for authentication
+3. Uses **Eureka Service Discovery** to locate available service instances
+4. Applies **Resilience4j Circuit Breaker** to monitor service health
+5. Routes the request to the appropriate microservice
+6. If the service fails or becomes unavailable, the **fallback endpoint** is triggered
+
+---
+
+## Implemented Features
+
+- Request routing using **Spring Cloud Gateway**
+- Service discovery using **Netflix Eureka**
+- Load balancing using **Spring Cloud LoadBalancer**
+- **JWT-based authentication** for securing API requests
+- **Circuit breaker implemented using Resilience4j**
+- **Fallback mechanism** to handle service failures gracefully
 
 ---
 
 ## Future Improvements
 
 - Implement rate limiting
-- Add circuit breaker using **Resilience4j**
-- Add authentication and authorization
 - Integrate distributed tracing
 - Containerize using **Docker**
 - Deploy using **Kubernetes**
