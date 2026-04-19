@@ -46,6 +46,28 @@ It integrates with **Service Discovery (Eureka)** to dynamically locate availabl
 
 ---
 
+## Logging and Request Tracking
+
+The gateway emits **structured JSON logs** and is the main entry point for correlation ID propagation.
+
+- Accepts the `X-Correlation-Id` request header from clients
+- Generates a new correlation ID when the header is missing
+- Forwards the same `X-Correlation-Id` header to downstream services
+- Includes `correlationId` in gateway request, authentication, and fallback logs
+
+Example request:
+
+```http
+GET /api/devotees HTTP/1.1
+Host: localhost:8080
+X-Correlation-Id: 8f94b4c4-2f6d-4f4b-8d89-7f8e2cb85b67
+Authorization: Bearer <token>
+```
+
+Use the same `correlationId` value to trace a request in the gateway and backend service logs.
+
+---
+
 ## Running the Application
 
 ### Build the project
@@ -93,6 +115,5 @@ http://localhost:8080/api/service-endpoint
 ## Future Improvements
 
 - Implement rate limiting
-- Integrate distributed tracing
 - Containerize using **Docker**
 - Deploy using **Kubernetes**
